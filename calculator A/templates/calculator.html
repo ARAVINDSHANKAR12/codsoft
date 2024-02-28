@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Calculator</title>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Arial', sans-serif;
+    }
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      font-size: 28px;
+      color: #333333;
+      text-align: center;
+      margin-bottom: 20px;
+      font-family: 'Helvetica', sans-serif;
+    }
+    input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      font-size: 24px;
+      margin-bottom: 10px;
+      border: none;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+    }
+    button {
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Arial', sans-serif;
+    }
+    .btn-number {
+      background-color: #4caf50;
+      color: #ffffff;
+    }
+    .btn-operator {
+      background-color: #2196f3;
+      color: #ffffff;
+    }
+    .btn-clear {
+      background-color: #ff5722;
+      color: #ffffff;
+    }
+    .btn-equal {
+      background-color: #ffeb3b;
+      color: #333333;
+    }
+    .calculator {
+      text-align: center;
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class='container'>
+    <div class="calculator">
+      <h1>Calculator</h1>
+      <form id="calcForm">
+        <input type="text" id="calc" name="expression" placeholder="0">
+        <br>
+        <button class="btn-number" type="button" onclick="addToInput('1')">1</button>
+        <button class="btn-number" type="button" onclick="addToInput('2')">2</button>
+        <button class="btn-number" type="button" onclick="addToInput('3')">3</button>
+        <button class="btn-operator" type="button" onclick="addToInput('+')">+</button>
+        <br>
+        <button class="btn-number" type="button" onclick="addToInput('4')">4</button>
+        <button class="btn-number" type="button" onclick="addToInput('5')">5</button>
+        <button class="btn-number" type="button" onclick="addToInput('6')">6</button>
+        <button class="btn-operator" type="button" onclick="addToInput('-')">-</button>
+        <br>
+        <button class="btn-number" type="button" onclick="addToInput('7')">7</button>
+        <button class="btn-number" type="button" onclick="addToInput('8')">8</button>
+        <button class="btn-number" type="button" onclick="addToInput('9')">9</button>
+        <button class="btn-operator" type="button" onclick="addToInput('*')">*</button>
+        <br>
+        <button class="btn-number" type="button" onclick="addToInput('0')">0</button>
+        <button class="btn-clear" type="button" onclick="clearInput()">C</button>
+        <button class="btn-equal" type="button" id="calculateBtn">=</button>
+        <button class="btn-operator" type="button" onclick="addToInput('/')">/</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $('#calculateBtn').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+          type: 'POST',
+          url: '/calculate',
+          data: $('#calcForm').serialize(),
+          success: function(response) {
+            $('#calc').val(response);
+          }
+        });
+      });
+    });
+
+    function addToInput(value) {
+      $('#calc').val($('#calc').val() + value);
+    }
+
+    function clearInput() {
+      $('#calc').val('');
+    }
+  </script>
+</body>
+</html>
